@@ -1,11 +1,42 @@
 import prisma from "../config/database.js"
-import { ExamType } from "../controllers/examController.js"
+import { ExamType, GroupBy  } from "../controllers/examController.js"
 
 const createExam =async (exam:ExamType) => {
     await prisma.exams.create({
         data: exam
     })
     return 
+}
+
+const getExams= async(groupBy: GroupBy) => {
+    const exams = prisma[`${groupBy}s`].findMany({
+        select: {
+            name: true,
+            exams: {
+                select: {
+                    name: true,
+                    link: true,
+                    categories: {
+                        select: {
+                            name: true
+                        }
+                    },
+                    [`${groupBy}s` === "instrures" ? 
+                        "disciplines" : 
+                        "instructors"
+                    ]: {
+                        select: {
+                            name: true
+                        }
+                    }
+                }
+            }
+        }
+    })
+
+    console.log()
+
+    return exams
 }
 
 const getCategory =async (categoryId:number) => {
@@ -37,4 +68,5 @@ export {
     getCategory,
     getDiscipline,
     getInstructor,
+    getExams
 }

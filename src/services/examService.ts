@@ -1,5 +1,6 @@
-import { ExamType } from "../controllers/examController.js";
-import { createExam, getCategory } from "../repositories/examRepository.js";
+import { ExamType, GroupBy } from "../controllers/examController.js";
+import { createExam, getCategory, getExams } from "../repositories/examRepository.js";
+
 
 const create =async (exam:ExamType) => {
     await checkCategory(exam.categoryId)
@@ -9,6 +10,12 @@ const create =async (exam:ExamType) => {
     await createExam(exam)
 
     return 
+}
+
+const get =async (groupBy: GroupBy) => {
+    let exams = await getExams(groupBy)
+
+    return exams
 }
 
 const checkCategory =async (categoryId:number) => {
@@ -31,4 +38,5 @@ const checkInstructor =async (instructorId:number) => {
 
 export {
     create,
+    get
 }

@@ -2,7 +2,7 @@ import { UserType } from "../controllers/userController.js";
 import bcrypt from "bcrypt";
 import { getUser, signup } from "../repositories/userRepository.js";
 import jwt from "jsonwebtoken";
-import { addSession } from "../repositories/authRepoistory.js";
+import { addSession } from "../repositories/authRepository.js";
 
 const create = async (user: UserType) => {
     const existUser = await verifyUser(user)
@@ -47,4 +47,5 @@ const createToken=async (id:number) => {
 export {
     create,
     login,
+    createToken,
 }

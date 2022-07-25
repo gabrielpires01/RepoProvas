@@ -7,16 +7,11 @@ beforeEach(async () => {
     await prisma.$executeRaw`TRUNCATE TABLE users CASCADE`
 })
 
-afterAll(async () => {
-    await prisma.$disconnect();
-})
-
 describe("POST /signup", () => {
 
     it("return 201 for valid signup",async ()=> {
         const user =  createUser();
         const res = await supertest(app).post("/signup").send(user);
-        
         expect(res.status).toBe(201)
     })
 
@@ -60,4 +55,8 @@ describe("POST /login", () => {
 
         expect(res.status).toBe(422)
     })
+})
+
+afterAll(async () => {
+    await prisma.$disconnect();
 })

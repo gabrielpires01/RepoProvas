@@ -22,3 +22,34 @@ model sessions {
   createdAt DateTime @default(now())
   users     users?   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
+
+model exams {
+  id Int @id @default(autoincrement())
+  name String
+  link String
+  categoryId Int?
+  categories    categories?   @relation(fields: [categoryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  disciplineId Int?
+  disciplines     disciplines?   @relation(fields: [disciplineId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  instructorId Int?
+  instructors     instructors?   @relation(fields: [instructorId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  createdAt DateTime @default(now())
+}
+
+model categories {
+  id Int @id @default(autoincrement())
+  name String @unique
+  exams exams[]
+}
+
+model disciplines {
+  id Int @id @default(autoincrement())
+  name String @unique
+  exams exams[]
+}
+
+model instructors {
+  id Int @id @default(autoincrement())
+  name String @unique
+  exams exams[]
+}

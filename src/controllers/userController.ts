@@ -14,6 +14,15 @@ const create = async (req: Request, res: Response) => {
     return res.sendStatus(201)
 }
 
+const login =async (req:Request, res:Response) => {
+    const user: UserType = req.body;
+
+    const token = await userService.login(user)
+
+    return res.send({token})
+}
+
 export {
     create,
+    login,
 }

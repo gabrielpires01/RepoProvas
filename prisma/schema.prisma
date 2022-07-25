@@ -8,7 +8,17 @@ datasource db {
 }
 
 model users {
-  id       Int    @id @default(autoincrement())
-  email    String @unique
-  password String
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
+  password  String
+  createdAt DateTime   @default(now())
+  sessions  sessions[]
+}
+
+model sessions {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int?
+  createdAt DateTime @default(now())
+  users     users?   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
